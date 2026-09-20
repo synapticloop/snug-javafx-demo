@@ -1,0 +1,47 @@
+/*
+ * Snug theme for the demo window.
+ *
+ * Palette drawn from the snug logo:
+ *   #F5E6CA  cream    — window background, matches the logo's rounded square
+ *   #5D4037  brown    — borders, text, and the cosy outlines in the logo
+ *   #FFFFFF  paper    — button surface (a clean break from the cream)
+ *   #FFF8E7  warm     — button hover state
+ *   #FFE0B2  amber    — button pressed state, echoes the scarf accent
+ *   #3E2723  espresso — deep accent on hover for the brown text/border
+ */
+
+/* The .root class is auto-applied to the scene's root node, so this fills
+ * the whole window. */
+.root {
+    -fx-background-color: #F5E6CA;
+}
+
+.button {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #5D4037;
+    -fx-border-color: #5D4037;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 8 22 8 22;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #FFF8E7;
+    -fx-border-color: #3E2723;
+    -fx-text-fill: #3E2723;
+}
+
+.button:pressed {
+    -fx-background-color: #FFE0B2;
+    -fx-border-color: #3E2723;
+    -fx-translate-y: 1;
+}
+
+.label {
+    -fx-text-fill: #5D4037;
+    -fx-font-size: 14px;
+}
