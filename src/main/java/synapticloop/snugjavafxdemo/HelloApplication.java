@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
 		Scene scene = new Scene(fxmlLoader.load(), 300, 400);
 
 		// Window icon — the snug logo (loaded from the classpath root).
-		stage.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("/imageassets/snug-logo.png")));
+		stage.getIcons().add(new Image(HelloApplication.class.getResourceAsStream("/assets/images/snug-logo.png")));
 
 		stage.setTitle("Snug");
 		stage.setResizable(false);

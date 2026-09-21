@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "synapticloop"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -42,6 +42,10 @@ tasks.withType<JavaCompile> {
 application {
     mainModule.set("synapticloop.snugjavafxdemo")
     mainClass.set("synapticloop.snugjavafxdemo.HelloApplication")
+    // JavaFX 25 + JDK 22+ (JEP 454): javafx.graphics's NativeLibLoader calls
+    // System::load, which is restricted. Grant the module native access so the
+    // JVM stops printing the warning and, eventually, stops blocking the call.
+    applicationDefaultJvmArgs = listOf("--enable-native-access=javafx.graphics")
 }
 
 // JavaFX dependencies declared directly (the org.openjfx.javafxplugin is
@@ -73,6 +77,9 @@ tasks.withType<Test> {
 //     21+ runs fine on classpath: its NativeLibLoader extracts the
 //     classified natives (glass.dll / libglass.so / libglass.dylib) from
 //     inside the jar to a temp dir on first launch.
+//   - When running the fat jar directly (java -jar ...), pass
+//     --enable-native-access=javafx.graphics to suppress the JEP 454 warning
+//     from NativeLibLoader calling System::load.
 //
 // The source stays modular (module-info.java still compiles against real
 // JavaFX modules on the module path during dev). Only the distribution
