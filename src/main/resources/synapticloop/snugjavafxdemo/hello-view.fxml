@@ -14,7 +14,9 @@
 		<Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
 	</padding>
 
-	<ImageView fx:id="logoImage" preserveRatio="true" smooth="true">
+	<ImageView fx:id="logoImage" preserveRatio="true" smooth="true"
+				onMousePressed="#onLogoMousePress" onMouseReleased="#onLogoMouseRelease"
+				onMouseClicked="#onLogoMouseClick">
 		<image>
 			<Image url="@../../assets/images/snug-logo.png"/>
 		</image>
