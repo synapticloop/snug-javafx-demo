@@ -15,14 +15,13 @@
 	</padding>
 
 	<ImageView fx:id="logoImage" preserveRatio="true" smooth="true"
-				onMousePressed="#onLogoMousePress" onMouseReleased="#onLogoMouseRelease"
 				onMouseClicked="#onLogoMouseClick">
 		<image>
 			<Image url="@../../assets/images/snug-logo.png"/>
 		</image>
 	</ImageView>
 
-	<Button text="Hello!" onAction="#onHelloButtonClick" onMousePressed="#onHelloButtonPress" onMouseReleased="#onHelloButtonRelease"/>
+	<Button fx:id="helloButton" text="Hello!" onAction="#onHelloButtonClick"/>
 
 	<Label fx:id="welcomeText"/>
 </VBox>
