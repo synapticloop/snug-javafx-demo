@@ -8,7 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-			fx:controller="synapticloop.snugjavafxdemo.HelloController"
+			fx:controller="synapticloop.snug.demo.javafx.controller.HelloController"
 			stylesheets="@styles.css">
 	<padding>
 		<Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>

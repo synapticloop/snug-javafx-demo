@@ -40,8 +40,8 @@ tasks.withType<JavaCompile> {
 }
 
 application {
-    mainModule.set("synapticloop.snugjavafxdemo")
-    mainClass.set("synapticloop.snugjavafxdemo.HelloApplication")
+    mainModule.set("synapticloop.snug.demo.javafx")
+    mainClass.set("synapticloop.snug.demo.javafx.HelloApplication")
     // JavaFX 25 + JDK 22+ (JEP 454): javafx.graphics's NativeLibLoader calls
     // System::load, which is restricted. Grant the module native access so the
     // JVM stops printing the warning and, eventually, stops blocking the call.
@@ -89,6 +89,6 @@ tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJ
     mergeServiceFiles()
     exclude("**/module-info.class")
     manifest {
-        attributes["Main-Class"] = "synapticloop.snugjavafxdemo.HelloApplication"
+        attributes["Main-Class"] = "synapticloop.snug.demo.javafx.Launcher"
     }
 }

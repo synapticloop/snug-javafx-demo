@@ -1,4 +1,4 @@
-package synapticloop.snugjavafxdemo;
+package synapticloop.snug.demo.javafx;
 
 import javafx.application.Application;
 

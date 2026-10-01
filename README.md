@@ -8,21 +8,30 @@ It exists to give `snug` something real (and small) to package into a native Win
 
 A single window with the snug logo and a "Hello!" button:
 
-- **Press** the button → the logo swaps to the waving variant.
-- **Release** → it swaps back.
-- **Click** → the welcome label updates.
+- **Click the button** → the logo plays a short wave animation (3 logo↔wave cycles) and the welcome label updates.
+- **Click the logo on the coffee cup** → the welcome label says "Mmmmm - coffee".
+- **Click the logo anywhere else** → it briefly switches to a surprised "ooh" variant, then snaps back to the logo after a second of no clicks.
 
 ## Project layout
 
+The app follows a thin MVVM split. Base package is `synapticloop.snug.demo.javafx`:
+
 ```
-src/main/java/synapticloop/snugjavafxdemo/
-  HelloApplication.java   // JavaFX Application entry point
-  HelloController.java     // button + image-swap handlers
-  Launcher.java
+src/main/java/synapticloop/snug/demo/javafx/
+  Launcher.java                          // plain main() that calls Application.launch
+  HelloApplication.java                  // Application entry; wires Model → ViewModel → View
+  model/
+    SnugModel.java                       // domain state + rules (logo state, welcome text, wave frame)
+    LogoState.java                       // LOGO | WAVE | OOH
+    ModelListener.java                   // Model → ViewModel callback surface
+  viewmodel/
+    HelloViewModel.java                  // JavaFX properties + animation timing (Timeline / PauseTransition)
+  controller/
+    HelloController.java                 // View glue: @FXML bindings, coffee-rect hit-test, dispatches input
 src/main/resources/
-  assets/images/           // snug-logo.png, snug-logo-wave.png
-  synapticloop/snugjavafxdemo/
-    hello-view.fxml        // UI layout
+  assets/images/                         // snug-logo.png, snug-logo-wave.png, snug-logo-ooh.png
+  synapticloop/snug/demo/javafx/
+    hello-view.fxml                      // UI layout
     styles.css
 ```
 
