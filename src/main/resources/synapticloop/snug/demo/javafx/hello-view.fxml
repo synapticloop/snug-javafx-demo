@@ -5,23 +5,67 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-			fx:controller="synapticloop.snug.demo.javafx.controller.HelloController"
-			stylesheets="@styles.css">
-	<padding>
-		<Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-	</padding>
 
-	<ImageView fx:id="logoImage" preserveRatio="true" smooth="true"
-				onMouseClicked="#onLogoMouseClick">
-		<image>
-			<Image url="@../../assets/images/snug-logo.png"/>
-		</image>
-	</ImageView>
+<!--
+	Root is a plain (unpadded) VBox so the MenuBar sits flush against the
+	window edge like standard window chrome. The padded inner VBox holds the
+	demo content only.
+-->
+<VBox alignment="CENTER" spacing="0.0" xmlns:fx="http://javafx.com/fxml"
+		fx:controller="synapticloop.snug.demo.javafx.controller.HelloController"
+		stylesheets="@styles.css">
+	<children>
+		<!--
+			On macOS the controller hands this bar to the system (Apple) menu
+			bar, so it renders at the top of the screen instead of in the
+			window; elsewhere it stays in the window. Keep the items to
+			MenuItem / SeparatorMenuItem — JavaFX refuses the hand-over if a
+			CustomMenuItem is present.
+		-->
+		<MenuBar fx:id="menuBar">
+			<menus>
+				<Menu text="Snug JavaFX Demo">
+					<items>
+						<MenuItem fx:id="aboutMenuItem" text="About" onAction="#onAbout"/>
+						<SeparatorMenuItem/>
+						<!--
+							"Shortcut+Q" is FXML shorthand for the platform's
+							normal modifier key plus Q: it renders and fires as
+							⌘Q on macOS and Ctrl+Q everywhere else, so the
+							accelerator needs no per-platform code. In the
+							Apple menu bar it is installed as a native key
+							equivalent.
+						-->
+						<MenuItem fx:id="quitMenuItem" text="Quit" accelerator="Shortcut+Q"
+								  onAction="#onQuit"/>
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
 
-	<Button fx:id="helloButton" text="Hello!" onAction="#onHelloButtonClick"/>
+		<!-- VBox.vgrow: the content keeps the menu bar at its natural height
+			 and takes (and centres itself in) whatever is left. -->
+		<VBox alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
+			<padding>
+				<Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+			</padding>
 
-	<Label fx:id="welcomeText"/>
+			<ImageView fx:id="logoImage" preserveRatio="true" smooth="true"
+					onMouseClicked="#onLogoMouseClick">
+				<image>
+					<Image url="@../../assets/images/snug-logo.png"/>
+				</image>
+			</ImageView>
+
+			<Button fx:id="helloButton" text="Hello!" onAction="#onHelloButtonClick"/>
+
+			<Label fx:id="welcomeText"/>
+		</VBox>
+	</children>
 </VBox>

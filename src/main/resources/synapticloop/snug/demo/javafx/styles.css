@@ -45,3 +45,45 @@
     -fx-text-fill: #5D4037;
     -fx-font-size: 14px;
 }
+
+/* Menu bar — window chrome in the same palette, so the bar does not read as
+ * a grey Modena strip bolted onto a cream window. The dropdown popup keeps
+ * the default surface so open items stay distinguishable from the bar. */
+
+.menu-bar {
+    -fx-background-color: #F5E6CA;
+    -fx-padding: 2 4 2 4;
+}
+
+.menu-bar .menu-label {
+    -fx-text-fill: #5D4037;
+}
+
+/* Open *and* hover share a style: while a menu is open, JavaFX keeps the
+ * "showing" pseudo-class on it for as long as the popup is up, which is
+ * what gives the user its "this menu is the open one" cue. */
+.menu-bar .menu:showing,
+.menu-bar .menu:hover,
+.menu-bar .menu:open {
+    -fx-background-color: #FFF8E7;
+}
+
+.menu-bar .menu:showing > .menu-label,
+.menu-bar .menu:hover > .menu-label,
+.menu-bar .menu:open > .menu-label {
+    -fx-text-fill: #3E2723;
+}
+
+.menu-item {
+    -fx-text-fill: #5D4037;
+}
+
+.menu-item:hover,
+.menu-item:filled:selected {
+    -fx-background-color: #FFF8E7;
+    -fx-text-fill: #3E2723;
+}
+
+.menu-separator-menu-item > .separator {
+    -fx-background-color: #D7C3A0;
+}
