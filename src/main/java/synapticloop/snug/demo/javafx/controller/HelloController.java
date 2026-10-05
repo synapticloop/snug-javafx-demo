@@ -52,7 +52,7 @@ public class HelloController {
 
 	private static final String ABOUT_BLURB =
 			"A tiny JavaFX app used as a packaging demo target for snug, "
-					+ "the snug exe creator.";
+					+ "the snug application packager for Windows and macOS.";
 
 	/**
 	 * The static logo, loaded directly rather than taken from the on-screen

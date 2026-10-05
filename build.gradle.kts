@@ -85,6 +85,12 @@ tasks.withType<Test> {
 // JavaFX modules on the module path during dev). Only the distribution
 // shape is classpath.
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    // Drop the version from the file name so the artifact is always
+    // snug-javafx-demo-all.jar rather than snug-javafx-demo-<version>-all.jar.
+    // The version is a project property, not something the demo's
+    // documentation wants to restate; an empty archiveVersion is what makes
+    // Gradle omit the segment (and its separator) entirely.
+    archiveVersion.set("")
     archiveClassifier.set("all")
     mergeServiceFiles()
     exclude("**/module-info.class")
