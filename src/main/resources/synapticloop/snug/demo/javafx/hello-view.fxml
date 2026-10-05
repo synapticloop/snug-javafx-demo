@@ -100,7 +100,7 @@
 				<Insets bottom="16.0" left="20.0" right="20.0" top="10.0"/>
 			</padding>
 			<children>
-				<Label text="Snug Tools" styleClass="section-heading"/>
+				<Label text="Snug Tools that are Included" styleClass="section-heading"/>
 
 				<HBox alignment="CENTER" spacing="16.0">
 					<children>
@@ -116,6 +116,24 @@
 									</graphic>
 								</Button>
 								<Label text="Snug Build" styleClass="icon-caption"/>
+							</children>
+						</VBox>
+
+						<!-- The dropper sits in the middle: it is the quickest
+							 way in (drag a JAR, get a demo app), so it reads as
+							 the starting point between the two deeper tools. -->
+						<VBox alignment="CENTER" spacing="6.0">
+							<children>
+								<Button styleClass="icon-button" onAction="#onDropperIconClick">
+									<graphic>
+										<ImageView fitWidth="96.0" preserveRatio="true" smooth="true">
+											<image>
+												<Image url="@../../../../assets/images/snug-dropper.png"/>
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+								<Label text="Build with Snug" styleClass="icon-caption"/>
 							</children>
 						</VBox>
 

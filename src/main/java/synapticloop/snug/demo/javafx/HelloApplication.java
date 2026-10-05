@@ -26,16 +26,16 @@ public class HelloApplication extends Application {
 	/**
 	 * Stage size.
 	 *
-	 * <p>The width is driven by whichever is wider: the bottom icon row (two
+	 * <p>The width is driven by whichever is wider: the bottom icon row (three
 	 * 96px tiles at 112px each — artwork + padding + border — 16px apart,
-	 * plus 20px insets, comes to 280px) or the content column's 256px logo
-	 * plus its own insets (296px). The logo wins, so the row is centred in a
-	 * window sized for it. The height covers the menu bar, that content
-	 * column, and the row including its "Snug Tools" heading and 12px
-	 * captions. It is deliberately generous: the stage is not resizable, so
-	 * a window a few pixels short clips the tiles rather than scrolling.</p>
+	 * plus 20px insets, comes to 408px) or the content column's 256px logo
+	 * plus its own insets (296px). The row wins, so the logo is centred in a
+	 * window sized for the tiles. The height covers the menu bar, that
+	 * content column, and the row including its heading and 12px captions. It
+	 * is deliberately generous: the stage is not resizable, so a window a
+	 * few pixels short clips the tiles rather than scrolling.</p>
 	 */
-	private static final double SCENE_WIDTH = 320;
+	private static final double SCENE_WIDTH = 420;
 	private static final double SCENE_HEIGHT = 650;
 
 	/** Exit status used when the user closes the window. */

@@ -3,12 +3,14 @@
 ---
 
 <p align="center">
-  <img src="assets/snug-javafx-demo-screenshot.png" alt="The snug-javafx-demo window: snug logo, a Hello! button, and a Snug Tools row with a Snug Build and a Snug Preview tile" width="360">
+  <img src="assets/snug-javafx-demo-screenshot.png" alt="The snug-javafx-demo window: snug logo, a Hello! button, and a row of three Snug Tools tiles — Snug Build, Build with Snug, and Snug Preview" width="360">
 </p>
 
-A minimal JavaFX 25 application used as a demo target for [**snug**](https://github.com/synapticloop/snug) — the snug application packager for Windows and macOS.
+> A minimal JavaFX 25 application used as a demo target 
+> for [**snug**](https://github.com/synapticloop/snug) — the snug application packager for Windows and macOS.
 
-It exists to give `snug` something real (and small) to package into a native executable. The same target feeds both the Windows builder and the macOS builder, so either packaging path can be exercised end-to-end on a self-contained desktop app.
+> It exists to give `snug` something real (and small) to package into a 
+> native executable. The same target feeds both the Windows builder and the macOS builder, so either packaging path can be exercised end-to-end on a self-contained desktop app.
 
 ---
 
@@ -20,7 +22,7 @@ A single window with the snug logo, a "Hello!" button, and a "Snug Tools" row:
 - **Click the logo on the coffee cup** → the welcome label says "Mmmmm - coffee".
 - **Click the logo anywhere else** → it briefly switches to a surprised "ooh" variant, then snaps back to the logo after a second of no clicks.
 - **The "Snug JavaFX Demo" menu** → an About dialog (logo, version), and Quit.
-- **Click a "Snug Tools" tile** → a modal explaining what that snug tool does, titled to match the tile's caption. **Snug Build** describes building for MacOS and Windows; **Snug Preview** describes previewing the dialogs a packaged app may show on launch.
+- **Click a "Snug Tools" tile** → a modal explaining what that snug tool does, titled to match the tile's caption. **Snug Build** describes building for MacOS and Windows; **Build with Snug** is the drag-and-drop route — drop in a JAR and it builds an example application to test it with; **Snug Preview** describes previewing the dialogs a packaged app may show on launch.
 
   Quit is bound to the platform's normal modifier key plus `Q` — `⌘Q` on macOS,
   `Ctrl+Q` elsewhere. The accelerator is declared once in the FXML as
@@ -53,7 +55,8 @@ src/main/java/synapticloop/snug/demo/javafx/
     HelloController.java                 // View glue: @FXML bindings, coffee-rect hit-test, menu + tile modals
 src/main/resources/
   assets/images/                         // snug-logo.png, snug-logo-wave.png, snug-logo-ooh.png,
-                                        // snug-runner.png, snug-preview.png  (the Snug Tools tiles)
+                                        // snug-runner.png, snug-dropper.png, snug-preview.png
+                                        //   (the three Snug Tools tiles)
   synapticloop/snug/demo/javafx/
     hello-view.fxml                      // UI layout, including the menu bar and its Shortcut+Q accelerator
     styles.css

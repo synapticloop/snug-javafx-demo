@@ -92,7 +92,15 @@ public class HelloController {
 
 	private static final String BUILD_TITLE = "Snug Build";
 	private static final String BUILD_BLURB =
-			"Snug Builder builds your application for both MacOS and Windows";
+			"Snug Builder builds your application for your operating System (available for MacOS and Windows).";
+
+	/** Artwork shown on the dropper tile and in the modal it opens. */
+	private static final String ICON_DROPPER_URL = "/assets/images/snug-dropper.png";
+
+	private static final String DROPPER_TITLE = "Build with Snug";
+	private static final String DROPPER_BLURB =
+			"A quick drag-and-drop utility that builds an example application "
+					+ "to test out your JAR file(s)";
 
 	/** Artwork shown on the Preview tile and in the modal it opens. */
 	private static final String ICON_PREVIEW_URL = "/assets/images/snug-preview.png";
@@ -100,7 +108,8 @@ public class HelloController {
 	private static final String PREVIEW_TITLE = "Snug Preview";
 	private static final String PREVIEW_BLURB =
 			"Snug Preview allows you to preview the dialog windows that may be "
-					+ "displayed when launching the Snug packaged Application";
+					+ "displayed when launching the Snug packaged Application.  This makes it straight-forward " +
+					"to customise your application the way you want.";
 
 	private final HelloViewModel viewModel;
 
@@ -191,6 +200,12 @@ public class HelloController {
 	@FXML
 	protected void onBuildIconClick() {
 		showInfoModal(BUILD_TITLE, BUILD_TITLE, BUILD_BLURB, ICON_BUILD_URL, ICON_WIDTH);
+	}
+
+	/** The dropper tile: the quickest way in — drag a JAR, get a demo app. */
+	@FXML
+	protected void onDropperIconClick() {
+		showInfoModal(DROPPER_TITLE, DROPPER_TITLE, DROPPER_BLURB, ICON_DROPPER_URL, ICON_WIDTH);
 	}
 
 	/** The Preview tile: what Snug Preview does. */
