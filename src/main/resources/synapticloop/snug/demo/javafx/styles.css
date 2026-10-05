@@ -99,16 +99,19 @@
     -fx-background-color: #D7C3A0;
 }
 
-/* Bottom icon row — the Build / Preview tiles.
+/* Bottom icon row — the three Snug Tools tiles (Snug Build, Build with
+ * Snug, Snug Preview).
  *
  * These are Buttons whose graphic is the mascot artwork, so the tile is a
- * normal focusable control rather than a picture with a click handler. The
- * block sits last in this file on purpose: `.icon-button` declares every
- * property it needs, and sharing a selector weight with `.button` means
- * placement decides the winner.
+ * normal focusable control rather than a picture with a click handler.
  *
- * The focus ring is recoloured rather than removed — the tiles are
- * keyboard-reachable, so they have to show where the focus is.
+ * `.icon-button` has to declare every property it needs. Setting styleClass
+ * in the FXML REPLACES the control's default "button" class, so none of the
+ * .button rules above match these tiles and this block is their only
+ * styling — block order in this file is therefore irrelevant to them.
+ *
+ * That same replacement is why the focus ring needs a rule of its own below
+ * (see .icon-button:focused).
  */
 
 .icon-button {
@@ -136,6 +139,26 @@
     -fx-translate-y: 1;
 }
 
+/* Focus ring.
+ *
+ * Without this the tiles show no focus indicator at all. Modena draws a
+ * Button's focus from a `.button:focused` rule, and these tiles no longer
+ * carry the "button" style class, so that rule cannot match them — the
+ * -fx-focus-color set above would be a value nothing ever reads.
+ *
+ * Painted the way Modena does it: the ring colour fills the whole tile and
+ * the surface is laid back over it inset by 2px, which leaves a 2px band
+ * that follows the 14px radius instead of a square outline. Declared after
+ * :hover and :pressed so an equal-specificity state cannot swallow it — a
+ * focused tile that also has the pointer on it keeps its ring and loses the
+ * hover tint, which is the right way round.
+ */
+.icon-button:focused {
+    -fx-background-color: -fx-focus-color, #FFFFFF;
+    -fx-background-insets: 0, 0, 0, 2;
+    -fx-background-radius: 14, 13;
+}
+
 /* Heading above the icon row. Sits at the top of the tile/caption
  * hierarchy: bold and in the deep espresso accent, where .icon-caption
  * below it is regular weight in the softer brown. */
@@ -156,7 +179,8 @@
     -fx-font-size: 12px;
 }
 
-/* Modal dialogs (About, Snug Build, Snug Preview).
+/* Modal dialogs (About, and one per Snug Tools tile: Snug Build,
+ * Build with Snug, Snug Preview).
  *
  * A Dialog builds its own Scene and does not inherit the owner's
  * stylesheets, so HelloController attaches this file to each modal via
