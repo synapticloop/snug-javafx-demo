@@ -52,7 +52,9 @@ src/main/java/synapticloop/snug/demo/javafx/
   viewmodel/
     HelloViewModel.java                  // JavaFX properties + animation timing (Timeline / PauseTransition)
   controller/
-    HelloController.java                 // View glue: @FXML bindings, coffee-rect hit-test, menu + tile modals
+    HelloController.java                 // View glue: @FXML bindings, coffee-rect hit-test, menu + tile handlers
+  view/
+    InfoModal.java                       // builds and themes the read-only modals (About + one per tile)
 src/main/resources/
   assets/images/                         // snug-logo.png, snug-logo-wave.png, snug-logo-ooh.png,
                                         // snug-runner.png, snug-dropper.png, snug-preview.png
@@ -61,14 +63,20 @@ src/main/resources/
     hello-view.fxml                      // UI layout, including the menu bar and its Shortcut+Q accelerator
     styles.css
 assets/
-  snug-javafx-demo-window.png            // README screenshot, not shipped with the app
+  snug-javafx-demo-screenshot.png        // README screenshot, not shipped with the app
   snug-icon.png                          // README Snug icon, not shipped with the app
 ```
 
 The menu bar is declared in `hello-view.fxml` — layout stays in the view file.
-Its two actions live in `HelloController`: About opens a modal `Alert` parented
-to the stage, and Quit hands off to the same `HelloApplication.shutdown()` the
+Its two actions live in `HelloController`: About opens a modal parented to the
+stage, and Quit hands off to the same `HelloApplication.shutdown()` the
 window's close button uses, so there is one exit path rather than two.
+
+About and the three Snug Tools tiles are the same read-only modal, so they
+share one implementation: `InfoModal` builds it, attaches `styles.css` to the
+dialog's own `Scene` (a `Dialog` does not inherit the owner's stylesheets,
+so without this the boxes come up in stock Modena grey), and shows it. The
+handlers in `HelloController` supply only the wording and artwork.
 
 ## Build & run
 
