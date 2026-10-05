@@ -14,13 +14,28 @@ repositories {
 val junitVersion = "5.12.1"
 val javafxVersion = "25"
 
+// Host OS, read once. The Gradle JVM runs on the machine doing the build,
+// so this is the platform the artifacts are being produced for.
+val osName = System.getProperty("os.name").lowercase()
+val osArch = System.getProperty("os.arch")
+
 // JavaFX classifier matching gradle-osdetector's naming (was provided by the
 // removed org.openjfx.javafxplugin via its `javafx.platform.classifier` extension).
 val javafxClassifier: String = when {
-    System.getProperty("os.name").lowercase().contains("win") -> "win"
-    System.getProperty("os.name").lowercase().contains("mac") ->
-        if (System.getProperty("os.arch") == "aarch64") "mac-aarch64" else "mac"
-    System.getProperty("os.arch") == "aarch64" -> "linux-aarch64"
+    osName.contains("win") -> "win"
+    osName.contains("mac") -> if (osArch == "aarch64") "mac-aarch64" else "mac"
+    osArch == "aarch64" -> "linux-aarch64"
+    else -> "linux"
+}
+
+// Coarser OS family, used to name the shadow jar. A build already carries the
+// host's natives (glass.dll / libglass.dylib / libglass.so) inside it, so the
+// file name records which platform it was actually built for. Deliberately
+// coarser than javafxClassifier, which additionally encodes the CPU
+// architecture — aarch64 and x64 jars both say "macos" here.
+val shadowJarOs: String = when {
+    osName.contains("win") -> "windows"
+    osName.contains("mac") -> "macos"
     else -> "linux"
 }
 
@@ -66,7 +81,9 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-// Fat/uber jar — `./gradlew shadowJar` → build/libs/snug-javafx-demo-all.jar
+// Fat/uber jar — `./gradlew shadowJar` → build/libs/snug-javafx-demo-<os>.jar
+// (e.g. snug-javafx-demo-windows.jar, snug-javafx-demo-macos.jar,
+// snug-javafx-demo-linux.jar; the OS comes from the build host).
 //
 // Notes on JPMS + fat-jar:
 //   - Each JavaFX module jar carries its own module-info.class. Flattening
@@ -85,13 +102,16 @@ tasks.withType<Test> {
 // JavaFX modules on the module path during dev). Only the distribution
 // shape is classpath.
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
-    // Drop the version from the file name so the artifact is always
-    // snug-javafx-demo-all.jar rather than snug-javafx-demo-<version>-all.jar.
-    // The version is a project property, not something the demo's
+    // Name the artifact after the platform it was built for:
+    // snug-javafx-demo-windows.jar / -macos.jar / -linux.jar.
+    //
+    // The version is dropped because a project property is not something the
     // documentation wants to restate; an empty archiveVersion is what makes
-    // Gradle omit the segment (and its separator) entirely.
+    // Gradle omit the segment and its separator. The OS goes in the classifier
+    // slot so the file name stays derived from the project name rather than
+    // being hard-coded.
     archiveVersion.set("")
-    archiveClassifier.set("all")
+    archiveClassifier.set(shadowJarOs)
     mergeServiceFiles()
     exclude("**/module-info.class")
     manifest {

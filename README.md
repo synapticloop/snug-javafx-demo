@@ -73,9 +73,21 @@ Requires JDK 25 (the Gradle toolchain will provision it).
 
 ```sh
 ./gradlew run              # run from source
-./gradlew shadowJar        # build build/libs/snug-javafx-demo-all.jar
-java -jar build/libs/snug-javafx-demo-all.jar
+./gradlew shadowJar        # build build/libs/snug-javafx-demo-<os>.jar
+java -jar build/libs/snug-javafx-demo-windows.jar
 ```
+
+The shadow jar is named after the platform it was built on, so the same
+source can produce all three without one overwriting another:
+
+| build host | artifact |
+| --- | --- |
+| Windows | `build/libs/snug-javafx-demo-windows.jar` |
+| macOS | `build/libs/snug-javafx-demo-macos.jar` |
+| Linux | `build/libs/snug-javafx-demo-linux.jar` |
+
+Each jar embeds that host's JavaFX natives, so a jar is only runnable on the
+platform it was built for.
 
 ## About snug
 
