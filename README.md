@@ -3,7 +3,7 @@
 ---
 
 <p align="center">
-  <img src="assets/snug-javafx-demo-window.png" alt="The snug-javafx-demo window: snug logo, a Hello! button, and a Snug Tools row with a Snug Build and a Snug Preview tile" width="360">
+  <img src="assets/snug-javafx-demo-screenshot.png" alt="The snug-javafx-demo window: snug logo, a Hello! button, and a Snug Tools row with a Snug Build and a Snug Preview tile" width="360">
 </p>
 
 A minimal JavaFX 25 application used as a demo target for [**snug**](https://github.com/synapticloop/snug) — the snug application packager for Windows and macOS.
