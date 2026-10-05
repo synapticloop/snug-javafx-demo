@@ -87,3 +87,110 @@
 .menu-separator-menu-item > .separator {
     -fx-background-color: #D7C3A0;
 }
+
+/* Bottom icon row — the Build / Preview tiles.
+ *
+ * These are Buttons whose graphic is the mascot artwork, so the tile is a
+ * normal focusable control rather than a picture with a click handler. The
+ * block sits last in this file on purpose: `.icon-button` declares every
+ * property it needs, and sharing a selector weight with `.button` means
+ * placement decides the winner.
+ *
+ * The focus ring is recoloured rather than removed — the tiles are
+ * keyboard-reachable, so they have to show where the focus is.
+ */
+
+.icon-button {
+    -fx-background-color: #FFFFFF;
+    /* Modena insets a translucent shadow under the button face; a flat
+     * cream window wants the surface flush with the tile border. */
+    -fx-background-insets: 0;
+    -fx-background-radius: 14px;
+    -fx-border-color: #5D4037;
+    -fx-border-width: 2px;
+    -fx-border-radius: 14px;
+    -fx-padding: 6px;
+    -fx-cursor: hand;
+    -fx-focus-color: #3E2723;
+}
+
+.icon-button:hover {
+    -fx-background-color: #FFF8E7;
+    -fx-border-color: #3E2723;
+}
+
+.icon-button:pressed {
+    -fx-background-color: #FFE0B2;
+    -fx-border-color: #3E2723;
+    -fx-translate-y: 1;
+}
+
+/* Heading above the icon row. Sits at the top of the tile/caption
+ * hierarchy: bold and in the deep espresso accent, where .icon-caption
+ * below it is regular weight in the softer brown. */
+
+.section-heading {
+    -fx-text-fill: #3E2723;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Caption under each icon tile. It declares its own colour and size instead
+ * of leaning on .label, because setting styleClass in FXML drops the default
+ * "label" class that would otherwise supply them. Kept a shade under the
+ * 14px body text so the row reads as a caption, not as a second headline. */
+
+.icon-caption {
+    -fx-text-fill: #5D4037;
+    -fx-font-size: 12px;
+}
+
+/* Modal dialogs (About, Snug Build, Snug Preview).
+ *
+ * A Dialog builds its own Scene and does not inherit the owner's
+ * stylesheets, so HelloController attaches this file to each modal via
+ * applyAppStyling(). Without that the boxes come up in stock Modena grey
+ * against a cream app.
+ *
+ * Modena paints a DialogPane as several stacked regions, each with its own
+ * background, so the cream surface has to be pushed through all of them —
+ * setting .dialog-pane alone leaves grey bands above and below the text.
+ * The OK button needs no rules: it is an ordinary .button and already picks
+ * up the themed treatment from the .button block above.
+ */
+
+.dialog-pane {
+    -fx-background-color: #F5E6CA;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.dialog-pane > .header-panel {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 20 20 8 20;
+}
+
+/* The bold heading — the tool name. Sits between the 12px caption and the
+ * body text, since it is the dialog's primary label. */
+.dialog-pane > .header-panel .label {
+    -fx-text-fill: #3E2723;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* The logo / mascot graphic, left of the heading. */
+.dialog-pane .graphic-container {
+    -fx-background-color: transparent;
+}
+
+.dialog-pane > .content-label {
+    -fx-text-fill: #5D4037;
+    -fx-font-size: 14px;
+    -fx-padding: 0 20 8 20;
+}
+
+.dialog-pane .button-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 8 20 16 20;
+}

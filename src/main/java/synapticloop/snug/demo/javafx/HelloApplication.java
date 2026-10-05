@@ -23,9 +23,20 @@ public class HelloApplication extends Application {
 	private static final String FXML_HELLO_VIEW = "hello-view.fxml";
 	private static final String TITLE_WINDOW = "Snug";
 
-	/** Stage size, height includes the menu bar's own height. */
-	private static final double SCENE_WIDTH = 300;
-	private static final double SCENE_HEIGHT = 440;
+	/**
+	 * Stage size.
+	 *
+	 * <p>The width is driven by whichever is wider: the bottom icon row (two
+	 * 96px tiles at 112px each — artwork + padding + border — 16px apart,
+	 * plus 20px insets, comes to 280px) or the content column's 256px logo
+	 * plus its own insets (296px). The logo wins, so the row is centred in a
+	 * window sized for it. The height covers the menu bar, that content
+	 * column, and the row including its "Snug Tools" heading and 12px
+	 * captions. It is deliberately generous: the stage is not resizable, so
+	 * a window a few pixels short clips the tiles rather than scrolling.</p>
+	 */
+	private static final double SCENE_WIDTH = 320;
+	private static final double SCENE_HEIGHT = 650;
 
 	/** Exit status used when the user closes the window. */
 	private static final int EXIT_CODE_OK = 0;

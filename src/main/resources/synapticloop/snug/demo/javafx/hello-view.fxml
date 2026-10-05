@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
@@ -56,16 +57,85 @@
 				<Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
 			</padding>
 
+			<!--
+				NOTE on the "@../../../../" depth: assets/ lives at the
+				classpath ROOT, and this FXML sits four directories below it
+				(synapticloop/snug/demo/javafx), so it takes four "..".
+				Getting this wrong is SILENT: javafx.scene.image.Image does
+				not throw for an unresolvable URL, it just hands back a 0x0
+				image with isError()==true, which then collapses the
+				ImageView to zero height. Verify a new image path with
+				image.isError(), not by eyeballing the window.
+			-->
 			<ImageView fx:id="logoImage" preserveRatio="true" smooth="true"
 					onMouseClicked="#onLogoMouseClick">
 				<image>
-					<Image url="@../../assets/images/snug-logo.png"/>
+					<Image url="@../../../../assets/images/snug-logo.png"/>
 				</image>
 			</ImageView>
 
 			<Button fx:id="helloButton" text="Hello!" onAction="#onHelloButtonClick"/>
 
 			<Label fx:id="welcomeText"/>
+		</VBox>
+
+		<!--
+			Bottom icon row, under a "Snug Tools" heading. Each item is a tile
+			(a Button carrying the 1024px mascot artwork as its graphic) with
+			a text caption underneath, so the artwork never has to speak for
+			itself. The Button owns the click and the hover/pressed states;
+			the heading and the captions are plain Labels, deliberately NOT
+			part of the hit area.
+
+			The heading sits in the outer VBox rather than the HBox so it can
+			span the full width while the tiles stay grouped and centred
+			beneath it.
+
+			styleClass REPLACES each control's default style class, so these
+			are styled solely by .section-heading, .icon-button and
+			.icon-caption in styles.css.
+		-->
+		<VBox alignment="CENTER" spacing="10.0">
+			<padding>
+				<Insets bottom="16.0" left="20.0" right="20.0" top="10.0"/>
+			</padding>
+			<children>
+				<Label text="Snug Tools" styleClass="section-heading"/>
+
+				<HBox alignment="CENTER" spacing="16.0">
+					<children>
+						<VBox alignment="CENTER" spacing="6.0">
+							<children>
+								<Button styleClass="icon-button" onAction="#onBuildIconClick">
+									<graphic>
+										<ImageView fitWidth="96.0" preserveRatio="true" smooth="true">
+											<image>
+												<Image url="@../../../../assets/images/snug-runner.png"/>
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+								<Label text="Snug Build" styleClass="icon-caption"/>
+							</children>
+						</VBox>
+
+						<VBox alignment="CENTER" spacing="6.0">
+							<children>
+								<Button styleClass="icon-button" onAction="#onPreviewIconClick">
+									<graphic>
+										<ImageView fitWidth="96.0" preserveRatio="true" smooth="true">
+											<image>
+												<Image url="@../../../../assets/images/snug-preview.png"/>
+											</image>
+										</ImageView>
+									</graphic>
+								</Button>
+								<Label text="Snug Preview" styleClass="icon-caption"/>
+							</children>
+						</VBox>
+					</children>
+				</HBox>
+			</children>
 		</VBox>
 	</children>
 </VBox>

@@ -1,8 +1,10 @@
 package synapticloop.snug.demo.javafx.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
@@ -12,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import synapticloop.snug.demo.javafx.viewmodel.HelloViewModel;
 
+import java.net.URL;
 import java.util.Locale;
 
 /**
@@ -23,12 +26,14 @@ import java.util.Locale;
  * rectangle is a presentational geometry concern and lives here, not in the
  * Model.</p>
  *
- * <p>Also owns the window's menu-bar actions (About / Quit). Both are pure
- * presentation: About is a modal {@link Alert}, and Quit simply hands off to
- * the {@code quitAction} supplied by the Application, which stays the single
- * owner of how the process exits. On macOS the bar itself is handed to the
- * system menu bar, so it renders in the Apple menu bar rather than in the
- * window.</p>
+ * <p>Also owns the window's modal dialogs: the menu bar's About item and the
+ * two icon tiles along the bottom (Build / Preview). All are pure
+ * presentation — each opens a modal {@link Alert} built by
+ * {@link #showInfoModal(String, String, String, String, double)} — and Quit
+ * simply hands off to the {@code quitAction} supplied by the Application,
+ * which stays the single owner of how the process exits. On macOS the bar
+ * itself is handed to the system menu bar, so it renders in the Apple menu
+ * bar rather than in the window.</p>
  */
 public class HelloController {
 	// Hot-spot rectangle covering the coffee cup in snug-logo.png (native pixel
@@ -59,12 +64,51 @@ public class HelloController {
 	/** Rendered width of the About dialog's logo graphic. */
 	private static final double ABOUT_LOGO_WIDTH = 64.0;
 
+	/**
+	 * Rendered width of the icon tiles' artwork, and of the graphic in the
+	 * modal each tile opens. Kept equal to the {@code fitWidth} of the two
+	 * ImageViews in hello-view.fxml so the dialog shows the same icon the
+	 * user just clicked, at the size they clicked it.
+	 */
+	private static final double ICON_WIDTH = 96.0;
+
+	// --- The two bottom-row icon tiles. Each opens a modal explaining what
+	// the snug tool does, so the text lives beside the icon it describes. ---
+
+	/**
+	 * The window stylesheet, as an absolute classpath path — the same file
+	 * hello-view.fxml references as {@code @styles.css}, and reused for the
+	 * modals (see {@link #applyAppStyling}).
+	 *
+	 * <p>Absolute on purpose: this controller sits in the {@code controller}
+	 * subpackage, one level below the FXML and the stylesheet it loads, so a
+	 * package-relative {@code "styles.css"} resolves to a
+	 * {@code .../controller/styles.css} that does not exist.</p>
+	 */
+	private static final String STYLESHEET_RESOURCE = "/synapticloop/snug/demo/javafx/styles.css";
+
+	/** Artwork shown on the Build tile and in the modal it opens. */
+	private static final String ICON_BUILD_URL = "/assets/images/snug-runner.png";
+
+	private static final String BUILD_TITLE = "Snug Build";
+	private static final String BUILD_BLURB =
+			"Snug Builder builds your application for both MacOS and Windows";
+
+	/** Artwork shown on the Preview tile and in the modal it opens. */
+	private static final String ICON_PREVIEW_URL = "/assets/images/snug-preview.png";
+
+	private static final String PREVIEW_TITLE = "Snug Preview";
+	private static final String PREVIEW_BLURB =
+			"Snug Preview allows you to preview the dialog windows that may be "
+					+ "displayed when launching the Snug packaged Application";
+
 	private final HelloViewModel viewModel;
 
 	/**
-	 * The window this controller draws into. Needed only to parent the About
-	 * dialog to it, so it stays modal and centred on the app. The View knows
-	 * about the window; that is presentation state, not domain state.
+	 * The window this controller draws into. Needed only to parent the modal
+	 * dialogs (About, Build, Preview) to it, so they stay modal and centred on
+	 * the app. The View knows about the window; that is presentation state, not
+	 * domain state.
 	 */
 	private final Stage stage;
 
@@ -139,19 +183,94 @@ public class HelloController {
 	 */
 	@FXML
 	protected void onAbout() {
-		Alert about = new Alert(Alert.AlertType.INFORMATION);
-		about.initOwner(stage);
-		about.initModality(Modality.APPLICATION_MODAL);
-		about.setTitle("About " + APP_NAME);
-		about.setHeaderText(APP_NAME);
-		about.setContentText("Version " + APP_VERSION + "\n\n" + ABOUT_BLURB);
+		showInfoModal("About " + APP_NAME, APP_NAME,
+				"Version " + APP_VERSION + "\n\n" + ABOUT_BLURB, LOGO_URL, ABOUT_LOGO_WIDTH);
+	}
 
-		ImageView logo = new ImageView(new Image(LOGO_URL));
-		logo.setFitWidth(ABOUT_LOGO_WIDTH);
-		logo.setPreserveRatio(true);
-		about.setGraphic(logo);
+	/** The Build tile: what Snug Builder does. */
+	@FXML
+	protected void onBuildIconClick() {
+		showInfoModal(BUILD_TITLE, BUILD_TITLE, BUILD_BLURB, ICON_BUILD_URL, ICON_WIDTH);
+	}
 
-		about.showAndWait();
+	/** The Preview tile: what Snug Preview does. */
+	@FXML
+	protected void onPreviewIconClick() {
+		showInfoModal(PREVIEW_TITLE, PREVIEW_TITLE, PREVIEW_BLURB, ICON_PREVIEW_URL, ICON_WIDTH);
+	}
+
+	/**
+	 * Build, parent and show a modal INFORMATION {@link Alert} — the single
+	 * implementation behind the About item and both icon tiles, which differ
+	 * only in their wording and artwork.
+	 *
+	 * <p>Parented to the stage and set APPLICATION_MODAL so it blocks the
+	 * window and stays centred over it rather than floating as a stray
+	 * task-bar window. {@code showAndWait} keeps the handler on the FX thread
+	 * until the user dismisses it, which is fine for a small read-only modal
+	 * and is never reached from the app's own background work.</p>
+	 *
+	 * @param header       bold heading text, or {@code null} for none
+	 * @param graphicUrl   classpath resource for the leading graphic
+	 * @param graphicWidth rendered width of that graphic
+	 */
+	private void showInfoModal(String title, String header, String message, String graphicUrl, double graphicWidth) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.initOwner(stage);
+		alert.initModality(Modality.APPLICATION_MODAL);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(message);
+
+		ImageView graphic = new ImageView(new Image(graphicUrl));
+		graphic.setFitWidth(graphicWidth);
+		graphic.setPreserveRatio(true);
+		graphic.setSmooth(true);
+		alert.setGraphic(graphic);
+
+		applyAppStyling(alert);
+		alert.showAndWait();
+	}
+
+	/**
+	 * Attach the window's own stylesheet to a modal's Scene.
+	 *
+	 * <p>A {@link javafx.scene.control.Dialog} builds its own {@link Scene}
+	 * and does <em>not</em> inherit the owner's stylesheets, so a modal
+	 * would otherwise come up in stock Modena grey against a cream app.</p>
+	 *
+	 * <p>The Scene is reached through {@link
+	 * javafx.scene.control.DialogPane#getScene()}, and it already exists by
+	 * the time {@code createDialogPane()} has run — before the dialog is
+	 * ever shown. So this is a plain assignment with no showing-event hook
+	 * and no listener.</p>
+	 *
+	 * <p>Two plausible-looking alternatives do NOT work, and are worth
+	 * recording so nobody re-derives them: the ON_SHOWING event's source is
+	 * the {@link Alert} itself, not its Window, so casting the event source
+	 * to a Window always fails; and the pane's {@code sceneProperty()} is
+	 * already set before a listener can be attached, so it never fires with
+	 * the real Scene — only with null, on teardown.</p>
+	 *
+	 * <p>Silently does nothing if the stylesheet cannot be found. A themed
+	 * dialog is a presentation nicety, and failing to open it over a missing
+	 * resource would be a far worse outcome than an unthemed one. Bear in
+	 * mind that this guard is also what hides a wrong
+	 * {@link #STYLESHEET_RESOURCE} — if the modals come up in stock Modena
+	 * grey, that constant is the first thing to check.</p>
+	 */
+	private void applyAppStyling(Dialog<?> dialog) {
+		URL stylesheet = HelloController.class.getResource(STYLESHEET_RESOURCE);
+		if (stylesheet == null) {
+			return;
+		}
+		Scene scene = dialog.getDialogPane().getScene();
+		if (scene != null) {
+			String url = stylesheet.toExternalForm();
+			if (!scene.getStylesheets().contains(url)) {
+				scene.getStylesheets().add(url);
+			}
+		}
 	}
 
 	/**
