@@ -3,6 +3,8 @@
  *
  * Palette drawn from the snug logo:
  *   #F5E6CA  cream    — window background, matches the logo's rounded square
+ *   #D7C3A0  sand     — menu bar surface, a step darker than the cream, and
+ *                       the popup menu separators
  *   #5D4037  brown    — borders, text, and the cosy outlines in the logo
  *   #FFFFFF  paper    — button surface (a clean break from the cream)
  *   #FFF8E7  warm     — button hover state
@@ -47,12 +49,21 @@
 }
 
 /* Menu bar — window chrome in the same palette, so the bar does not read as
- * a grey Modena strip bolted onto a cream window. The dropdown popup keeps
- * the default surface so open items stay distinguishable from the bar. */
+ * a grey Modena strip bolted onto a cream window. It sits a step darker than
+ * the window body and carries a brown rule along its bottom edge, so it
+ * reads as chrome rather than as more of the window's content. The dropdown
+ * popup keeps the default surface so open items stay distinguishable from
+ * the bar.
+ *
+ * Border widths and colours are the CSS shorthand order — top, right,
+ * bottom, left — so only the bottom edge is given a width and a colour;
+ * the rest stay transparent rather than being left at Modena's default. */
 
 .menu-bar {
-    -fx-background-color: #F5E6CA;
-    -fx-padding: 2 4 2 4;
+    -fx-background-color: #D7C3A0;
+    -fx-padding: 2 4 2 2;
+    -fx-border-color: transparent transparent #5D4037 transparent;
+    -fx-border-width: 0 0 2 0;
 }
 
 .menu-bar .menu-label {
