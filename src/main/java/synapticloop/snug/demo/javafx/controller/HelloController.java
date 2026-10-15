@@ -48,8 +48,8 @@ public class HelloController {
 	private static final String APP_VERSION = "1.0.0";
 
 	private static final String ABOUT_BLURB =
-			"A tiny JavaFX app used as a packaging demo target for snug, "
-					+ "the snug application packager for Windows and macOS.";
+			"A tiny JavaFX app used as a packaging demo target for Snug - "
+					+ "the application packager";
 
 	/**
 	 * The static logo, loaded directly rather than taken from the on-screen
@@ -77,12 +77,12 @@ public class HelloController {
 
 	private static final String BUILD_TITLE = "Snug Build";
 	private static final String BUILD_BLURB =
-			"Snug Builder builds your application for your operating System (available for MacOS and Windows).";
+			"Snug Builder builds your application for your operating System.";
 
 	/** Artwork shown on the dropper tile and in the modal it opens. */
 	private static final String ICON_DROPPER_URL = "/assets/images/snug-dropper.png";
 
-	private static final String DROPPER_TITLE = "Build with Snug";
+	private static final String DROPPER_TITLE = "Snug Quick Build";
 	private static final String DROPPER_BLURB =
 			"A quick drag-and-drop utility that builds an example application "
 					+ "to test out your JAR file(s)";
