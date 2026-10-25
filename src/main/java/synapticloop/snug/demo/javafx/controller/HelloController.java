@@ -77,7 +77,7 @@ public class HelloController {
 
 	private static final String BUILD_TITLE = "Snug Build";
 	private static final String BUILD_BLURB =
-			"Snug Builder builds your application for your operating System.";
+			"Snug Builder packages your Java application for Windows x64 Operating Systems.";
 
 	/** Artwork shown on the dropper tile and in the modal it opens. */
 	private static final String ICON_DROPPER_URL = "/assets/images/snug-dropper.png";
